@@ -6,6 +6,7 @@ import se.lexicon.interfaces.PersonRule;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -27,6 +28,8 @@ public class Main {
           List<Person> activePeople = filterPerson(people, isActive);
           List<Person> adultPeople = filterPerson(people, isAdult);
           List<Person> stockholmPeople = filterPerson(people, livesInStockholm);
+
+          
           
        /*   
           IO.println("Active people: " + activePeople);
@@ -44,6 +47,42 @@ public class Main {
           PersonProcessor.findPeople(people, isActiveAndAdult).forEach(sendMailToPerson::accept);
           IO.println("--------------");
           PersonProcessor.applyToMatching(people, isActiveAndAdult, sendMailToPerson);
+
+
+
+          List<Person> activePeopleList =  people.stream()
+                  .filter(isActive)
+                  .toList();
+
+          List<String> mappedNames = people.stream()
+                  .map(person -> person.getName())
+                  .toList();
+
+          List<Person> adults = people.stream()
+                  .filter(isAdult)
+                  .toList();
+
+          List<Person> sortByAge = people.stream()
+                  .sorted((p1, p2) -> Integer.compare(p1.getAge(), p2.getAge()))
+                  .toList();
+
+          List<Person> activeInStockholm = people.stream()
+                  .filter(isActive.and(livesInStockholm))
+                  .toList();
+
+
+          IO.println("--------------");
+          IO.println("Active people: " + activePeopleList);
+          IO.println("--------------");
+          IO.println("Mapped names: " + mappedNames);
+          IO.println("--------------");
+          IO.println("Adults: " + adults);
+          IO.println("--------------");
+          IO.println("Sorted by age: " + sortByAge);
+          IO.println("--------------");
+          IO.println("Active in Stockholm: " + activeInStockholm);  
+          
+
       }
       
       private List<Person> filterPerson(List<Person> people, Predicate<Person> rule) {
