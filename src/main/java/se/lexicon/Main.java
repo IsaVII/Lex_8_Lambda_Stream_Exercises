@@ -71,6 +71,7 @@ public class Main {
                   .toList();
 
 
+/*         
           IO.println("--------------");
           IO.println("Active people: " + activePeopleList);
           IO.println("--------------");
@@ -81,6 +82,28 @@ public class Main {
           IO.println("Sorted by age: " + sortByAge);
           IO.println("--------------");
           IO.println("Active in Stockholm: " + activeInStockholm);  
+          */
+
+          List<Person> isActiveInStockholm = people.stream()
+                  .filter(isActive)
+                  .filter(livesInStockholm)
+                  .toList();
+          
+          List<Person> isActiveAndAdultList = people.stream()
+                  .filter(isActive)
+                  .filter(isAdult)
+                  .toList();
+          List<Person> inActiveOver30 = people.stream()
+                  .filter(isNotActive)
+                  .filter(person -> person.getAge() > 30)
+                  .toList();
+          
+          IO.println("--------------");
+          IO.println("Active in Stockholm: " + isActiveInStockholm);
+          IO.println("--------------");
+          IO.println("Active and adult: " + isActiveAndAdultList);
+          IO.println("--------------");
+          IO.println("InActive over 30: " + inActiveOver30);
           
 
       }
