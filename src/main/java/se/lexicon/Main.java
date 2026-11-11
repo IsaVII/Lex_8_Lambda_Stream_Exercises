@@ -11,14 +11,20 @@ public class Main {
       void main() {
           List<Person> people = fillList();
 
+          //Basic rules
           PersonRule isActive = person -> person.isActive();
           PersonRule isAdult = person -> person.getAge() >= 18;
-          PersonRule isFromStockholm = person -> person.getCity().equalsIgnoreCase("Stockholm");
+          PersonRule livesInStockholm = person -> person.getCity().equalsIgnoreCase("Stockholm");
 
+          //Combined rules
+          PersonRule isActiveAndAdult =  isActive.and(isAdult);
+          PersonRule isAdultOrFromStockholm = isAdult.or(livesInStockholm);
+          PersonRule isNotActive = isActive.negate();
+          
 
           List<Person> activePeople = filterPerson(people, isActive);
           List<Person> adultPeople = filterPerson(people, isAdult);
-          List<Person> stockholmPeople = filterPerson(people, isFromStockholm);
+          List<Person> stockholmPeople = filterPerson(people, livesInStockholm);
           
           IO.println("Active people: " + activePeople);
           IO.println("--------------");
