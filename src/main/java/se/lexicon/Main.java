@@ -26,6 +26,7 @@ public class Main {
           List<Person> adultPeople = filterPerson(people, isAdult);
           List<Person> stockholmPeople = filterPerson(people, livesInStockholm);
           
+       /*   
           IO.println("Active people: " + activePeople);
           IO.println("--------------");
           IO.println("Adult people: " + adultPeople);
@@ -33,10 +34,14 @@ public class Main {
           IO.println("Stockholm people: " + stockholmPeople);
           IO.println("--------------");
           IO.println("--------------");
-          
+          */
           
           PersonAction sendMailToPerson = person -> IO.println("Send mail to " + person.getName());
-          sendMailToPerson.execute(people.get(0));  
+          //sendMailToPerson.execute(people.get(0));  
+          
+          PersonProcessor.findPeople(people, isActiveAndAdult).forEach(sendMailToPerson::execute);
+          IO.println("--------------");
+          PersonProcessor.applyToMatching(people, isActiveAndAdult, sendMailToPerson);
       }
       
       private List<Person> filterPerson(List<Person> people, PersonRule rule) {
