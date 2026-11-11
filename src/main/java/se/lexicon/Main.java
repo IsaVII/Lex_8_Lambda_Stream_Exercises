@@ -4,6 +4,8 @@ import se.lexicon.interfaces.PersonAction;
 import se.lexicon.interfaces.PersonRule;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -12,14 +14,14 @@ public class Main {
           List<Person> people = fillList();
 
           //Basic rules
-          PersonRule isActive = person -> person.isActive();
-          PersonRule isAdult = person -> person.getAge() >= 18;
-          PersonRule livesInStockholm = person -> person.getCity().equalsIgnoreCase("Stockholm");
+          Predicate<Person> isActive = person -> person.isActive();
+          Predicate<Person> isAdult = person -> person.getAge() >= 18;
+          Predicate<Person> livesInStockholm = person -> person.getCity().equalsIgnoreCase("Stockholm");
 
           //Combined rules
-          PersonRule isActiveAndAdult =  isActive.and(isAdult);
-          PersonRule isAdultOrFromStockholm = isAdult.or(livesInStockholm);
-          PersonRule isNotActive = isActive.negate();
+          Predicate<Person> isActiveAndAdult =  isActive.and(isAdult);  
+          Predicate<Person> isAdultOrFromStockholm = isAdult.or(livesInStockholm);
+          Predicate<Person> isNotActive = isActive.negate();
           
 
           List<Person> activePeople = filterPerson(people, isActive);
@@ -36,18 +38,18 @@ public class Main {
           IO.println("--------------");
           */
           
-          PersonAction sendMailToPerson = person -> IO.println("Send mail to " + person.getName());
+          Consumer<Person> sendMailToPerson = person -> IO.println("Send mail to " + person.getName());
           //sendMailToPerson.execute(people.get(0));  
           
-          PersonProcessor.findPeople(people, isActiveAndAdult).forEach(sendMailToPerson::execute);
+          PersonProcessor.findPeople(people, isActiveAndAdult).forEach(sendMailToPerson::accept);
           IO.println("--------------");
           PersonProcessor.applyToMatching(people, isActiveAndAdult, sendMailToPerson);
       }
       
-      private List<Person> filterPerson(List<Person> people, PersonRule rule) {
+      private List<Person> filterPerson(List<Person> people, Predicate<Person> rule) {
           List<Person> filteredList = new java.util.ArrayList<>();
           for (Person person : people) {
-              if (rule.check(person)) {
+              if (rule.test(person)) {
                   filteredList.add(person);
               }
           }
