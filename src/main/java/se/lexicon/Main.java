@@ -119,12 +119,25 @@ public class Main {
                     .sorted()
                     .toList();
 
+     /*       
             IO.println("--------------");
             IO.println("Unique cities: " + uniqueCities);
             IO.println("--------------");
             IO.println("Unique first letters: " + uniqueFirstLetters);
-             
+             */
             
+            List<String> nameAgeCityList = people.stream()
+                    .map(person -> person.getName() + " (" + person.getAge() + ") - " + person.getCity())
+                    .toList();
+            
+            List<String> emailList = people.stream()
+                    .map(person -> person.getName().toLowerCase() + "@example.com")
+                    .toList();
+            
+            IO.println("--------------");
+            IO.println("Name, Age, City: " + nameAgeCityList);
+            IO.println("--------------");
+            IO.println("Email list: " + emailList);
       }
       
       private List<Person> filterPerson(List<Person> people, Predicate<Person> rule) {
