@@ -98,14 +98,33 @@ public class Main {
                   .filter(person -> person.getAge() > 30)
                   .toList();
           
+/*          
           IO.println("--------------");
           IO.println("Active in Stockholm: " + isActiveInStockholm);
           IO.println("--------------");
           IO.println("Active and adult: " + isActiveAndAdultList);
           IO.println("--------------");
           IO.println("InActive over 30: " + inActiveOver30);
+          */
           
+            List<String> uniqueCities = people.stream()
+                    .map(person -> person.getCity())
+                    .distinct()
+                    .sorted()
+                    .toList();
+            
+            List<String> uniqueFirstLetters = people.stream()
+                    .map(person -> person.getName().substring(0, 1))
+                    .distinct()
+                    .sorted()
+                    .toList();
 
+            IO.println("--------------");
+            IO.println("Unique cities: " + uniqueCities);
+            IO.println("--------------");
+            IO.println("Unique first letters: " + uniqueFirstLetters);
+             
+            
       }
       
       private List<Person> filterPerson(List<Person> people, Predicate<Person> rule) {
